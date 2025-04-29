@@ -1,0 +1,23 @@
+# Entorno virtual
+.venv/
+
+# Archivos de Python
+__pycache__/
+*.pyc
+*.pyo
+
+# pytest
+.pytest_cache/
+.cache/
+.coverage
+
+# VSCode
+.vscode/
+
+# coverage
+htmlcov/
+coverage.xml
+
+# Otros
+.DS_Store
+.env
