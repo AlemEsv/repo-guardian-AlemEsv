@@ -1,4 +1,5 @@
 name: CI
+
 on: [push, pull_request]
 jobs:
   test:
@@ -15,7 +16,7 @@ jobs:
           pip install -r requirements.txt
 
       - name: Run Ruff linter
-        run: ruff src tests --quiet
+        run: ruff check src tests --quiet
 
       - name: Run Pytest with coverage
         run: pytest -n auto --cov=guardian --cov-report=xml
@@ -28,4 +29,3 @@ jobs:
         with:
           files: ./coverage.xml
           flags: unittests
-          fail_ci_if_error: true
