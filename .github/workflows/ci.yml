@@ -16,7 +16,7 @@ jobs:
           pip install -r requirements.txt
 
       - name: Run Ruff linter
-        run: ruff src tests --quiet
+        run: ruff check src tests --quiet
 
       - name: Run Pytest with coverage
         run: pytest -n auto --cov=guardian --cov-report=xml
