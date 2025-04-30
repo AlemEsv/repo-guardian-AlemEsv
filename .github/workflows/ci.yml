@@ -19,7 +19,7 @@ jobs:
         run: ruff check src tests --quiet
 
       - name: Run Pytest with coverage
-        run: pytest -n auto --cov=guardian --cov-report=xml
+        run: pytest -n auto --cov=src.guardian --cov-report=xml
 
       - name: Run Behave tests
         run: behave -f progress
@@ -29,3 +29,4 @@ jobs:
         with:
           files: ./coverage.xml
           flags: unittests
+          fail_ci_if_error: true
