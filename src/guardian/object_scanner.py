@@ -10,6 +10,7 @@ class GitObject:
     content: bytes
     hash: str
 
+
 def read_loose(path: Path) -> GitObject:
     """
     Lee y valida un objeto suelto de Git (.git/objects/xx/yyyy...).
@@ -21,26 +22,35 @@ def read_loose(path: Path) -> GitObject:
         GitObject: Objeto con tipo, tamaño, contenido y hash SHA-1.
 
     Raises:
-        ValueError: Si el archivo está corrupto o el tamaño no coincide.
+        ValueError: Si el archivo está corrupto, el tamaño no coincide o el encabezado es inválido.
         FileNotFoundError: Si el archivo no existe.
         zlib.error: Si el archivo no puede descomprimirse.
     """
+    if not path.exists():
+        raise FileNotFoundError(f"No existe el archivo: {path}")
+
     with path.open('rb') as f:
         compressed = f.read()
+
     decompressed = zlib.decompress(compressed)
 
-    # Separar encabezado y contenido
     header, _, content = decompressed.partition(b'\x00')
-    type_str, size_str = header.decode().split()
+    try:
+        type_str, size_str = header.decode().split()
+        size = int(size_str)
+    except Exception as e:
+        raise ValueError("Encabezado inválido") from e
 
-    # Validar tamaño
-    if len(content) != int(size_str):
+    if len(content) != size:
         raise ValueError("Tamaño del contenido incorrecto")
 
-    # Calcular hash y verificar
     sha = hashlib.sha1()
-    sha.update(decompressed)
+    sha.update(header + b"\x00" + content)
     digest = sha.hexdigest()
 
-    # Comparar con el nombre del archivo si lo tienes disponible
-    return GitObject(type=type_str, size=int(size_str), content=content, hash=digest)
+    return GitObject(
+        type=type_str,
+        size=size,
+        content=content,
+        hash=digest
+    )
