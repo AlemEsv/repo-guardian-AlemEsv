@@ -1,0 +1,74 @@
+categories: # You can categorize pull requests in release notes using labels.
+  - title: '🚀 Features'
+    labels: 
+      - 'feature'
+      - 'enhancement'
+  - title: '🐛 Bug Fixes'
+    labels:
+      - 'fix'
+      - 'bugfix'
+      - 'bug'
+  - title: '🔧 Refactors'
+    labels:
+      - 'refactor'
+      - 'improvement'
+  - title: '📚 Documentation'
+    labels:
+      - 'doc'
+      - 'docs'
+      - 'documentation'
+version-resolver: # Version number incrementing can be resolved automatically based on labels of individual pull requests
+  major:
+    labels:
+      - 'major'
+  minor:
+    labels:
+      - 'minor'
+  patch:
+    labels:
+      - 'patch'
+  default: patch
+autolabeler: # You can add automatically a label into a PR, with the autolabeler option. 
+  - label: 'documentation'
+    branch:
+      - '/docs{0,1}\/.+/'
+  - label: 'fix'
+    title: 
+      - '/fix/i'        
+      - '/bug/i'
+    branch:
+      - '/fix\/.+/'
+  - label: 'enhancement'
+    branch:
+      - '/feature\/.+/'
+  - label: 'refactor'
+    branch:
+      - '/refactor\/.+/'
+  - label: 'major'
+    title:
+      - '/^\(MAJOR\)/i' # Match "(MAJOR) ..." or "(major) ..."  
+  - label: 'minor'
+    title:
+      - '/^\(MINOR\)/i' # Match "(MINOR) ..." or "(minor) ..."
+  - label: 'patch'
+    title:
+      - '/^\(PATCH\)/i' # Match "(PATCH) ..." or "(patch) ..."
+    branch:
+      - '/hotfix\/.+/'
+include-labels: # Only pull requests that have the configured labels will be included in the release draft.
+  - 'feature'
+  - 'enhancement'
+  - 'fix'
+  - 'bugfix'
+  - 'bug'
+  - 'refactor'
+  - 'improvement'
+  - 'doc'
+  - 'docs'
+  - 'documentation'
+name-template: 'v$RESOLVED_VERSION 🐣'
+tag-template: 'v$RESOLVED_VERSION'
+template: |
+  ## Changes
+
+  $CHANGES
