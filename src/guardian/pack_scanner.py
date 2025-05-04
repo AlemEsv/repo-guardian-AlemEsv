@@ -1,5 +1,5 @@
 import struct
-import zlib
+#import zlib
 import binascii
 from pathlib import Path
 
@@ -17,14 +17,14 @@ def scan_pack(repo_path: Path):
     Lanza CrcError(offset) si falla el CRC.
     """
     pack_path = repo_path / ".git" / "objects" / "pack" / "pack-corrupt.pack"
-    idx_path  = repo_path / ".git" / "objects" / "pack" / "pack-corrupt.idx"
+    #idx_path  = repo_path / ".git" / "objects" / "pack" / "pack-corrupt.idx"
 
     # Abrir y parsear header de pack: 'PACK' + version + num_objects
     with open(pack_path, "rb") as f:
         signature = f.read(4)
         if signature != b"PACK":
             raise PackfileError("No es un packfile válido")
-        version = struct.unpack(">I", f.read(4))[0]
+        #version = struct.unpack(">I", f.read(4))[0]
         num_objects = struct.unpack(">I", f.read(4))[0]
 
         # Iterar cada objeto: para simplificar, leemos raw y comprobamos CRC32
