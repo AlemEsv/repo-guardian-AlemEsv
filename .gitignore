@@ -2,6 +2,13 @@
 .dist
 .venv/
 
+# Ignorar repositorio temporal
+/tmp_repo/
+
+# Ignorar archivos del fixture
+*.pack
+*.idx
+
 # Archivos de Python
 __pycache__/
 *.pyc
